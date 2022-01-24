@@ -38,10 +38,6 @@ class OrderProcessor
     limit_discount(order, rule.call(order, counts))
   end
 
-  def l_lp_predicate(order)
-    order.large_la_poste? && counts[:l_lp_count][order.year_month] == 2
-  end
-
   def limit_discount(order, discount)
     monthly_total = counts.monthly_total(order.year_month) + discount
     discount -= (monthly_total - MONTHLY_DISCOUNT_LIMIT) if monthly_total >= MONTHLY_DISCOUNT_LIMIT
