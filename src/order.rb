@@ -12,7 +12,7 @@ class Order
     @date = date
     @size = size
     @operator = operator
-    @price = PROVIDERS[operator][size]
+    @price = PROVIDER_PRICES[operator][size]
   end
 
   def self.from(order_args)
@@ -24,7 +24,7 @@ class Order
   def self.valid?(order_args)
     Date.iso8601(order_args[0]) &&
       SIZES.include?(order_args[1].to_sym) &&
-      PROVIDERS.keys.include?(order_args[2].to_sym)
+      PROVIDER_PRICES.keys.include?(order_args[2].to_sym)
   rescue ArgumentError
     false
   end
