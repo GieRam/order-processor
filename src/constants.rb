@@ -11,12 +11,14 @@ PROVIDERS = {
   LP: {
     S: 1.5,
     M: 4.9,
-    L: 6.9
+    L: 6.9,
+    XL: 9.9
   },
   MR: {
     S: 2,
     M: 3,
-    L: 4
+    L: 4,
+    XL: 5
   }
 }.freeze
 LOWEST_S_PRICE = PROVIDERS.values.map { |prices| prices[:S] }.min

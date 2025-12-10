@@ -30,7 +30,7 @@ class Order
   end
 
   def to_s
-    "#{date} #{size} #{operator} #{'%.2f' % format_price} #{format_discount}"
+    "#{date} #{size} #{operator} #{formatted_price} #{formatted_discount}"
   end
 
   def year_month
@@ -38,18 +38,20 @@ class Order
   end
 
   def large_la_poste?
-    operator == :LP && size == :L
+    operator == :LP && %i[L XL].include?(size)
   end
 
   private
 
-  def format_price
-    return price - discount if discount.positive?
-
-    price
+  def formatted_price
+    format_amount(price - discount || 0)
   end
 
-  def format_discount
-    discount.positive? ? '%.2f' % discount : '-'
+  def formatted_discount
+    discount.positive? ? format_amount(discount) : '-'
+  end
+
+  def format_amount(amount)
+    '%.2f' % amount.to_f
   end
 end

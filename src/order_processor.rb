@@ -4,7 +4,7 @@ require 'date'
 require './src/order'
 require './src/invalid_order'
 require './src/constants'
-require '../src/counts_repository'
+require './src/counts_repository'
 
 class OrderProcessor
   attr_reader :counts, :lowest_s_price, :orders_file
