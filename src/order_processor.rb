@@ -37,7 +37,7 @@ class OrderProcessor
   end
 
   def limit_discount(order, discount)
-    monthly_total = counts.monthly_total(order.year_month) + discount
+    monthly_total = counts.monthly_total_for(order.year_month) + discount
     discount -= (monthly_total - MONTHLY_DISCOUNT_LIMIT) if monthly_total >= MONTHLY_DISCOUNT_LIMIT
     counts.add_monthly_total(order.year_month, discount)
     order.discount = discount
