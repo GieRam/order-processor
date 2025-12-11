@@ -15,7 +15,7 @@ module DiscountRules
       return 0 unless order.large_la_poste?
 
       counts.increment_l_lp_count(order.year_month)
-      price
+      threshold_met? ? price : 0
     end
 
     private
@@ -23,7 +23,7 @@ module DiscountRules
     attr_reader :order, :counts
 
     def price
-      threshold_met? ? PROVIDER_PRICES[:LP][:L] : 0
+      PROVIDER_PRICES[:LP][:L] 
     end
 
     def threshold_met?
