@@ -7,7 +7,7 @@
 
 SIZES = %i[S M L].freeze
 L_LP_RULE_THRESHOLD = 3
-PROVIDERS = {
+PROVIDER_PRICES = {
   LP: {
     S: 1.5,
     M: 4.9,
@@ -19,6 +19,6 @@ PROVIDERS = {
     L: 4
   }
 }.freeze
-LOWEST_S_PRICE = PROVIDERS.values.map { |prices| prices[:S] }.min
+LOWEST_S_PRICE = PROVIDER_PRICES.values.map { |prices| prices[:S] }.min
 SEPARATOR = ' '
 MONTHLY_DISCOUNT_LIMIT = 10
