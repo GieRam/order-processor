@@ -15,7 +15,7 @@ module DiscountRules
       return 0 unless order.large_la_poste?
 
       counts.increment_l_lp_count(order.year_month)
-      
+      price
     end
 
     private
