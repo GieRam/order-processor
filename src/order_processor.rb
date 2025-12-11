@@ -5,18 +5,16 @@ require './src/order'
 require './src/invalid_order'
 require './src/constants'
 require './src/counts_repository'
+require './src/discount_rules/lowest_s_price'
+require './src/discount_rules/large_la_poste'
 
 class OrderProcessor
   attr_reader :counts, :lowest_s_price, :orders_file
 
-  DISCOUNT_RULES = {
-    ->(order) { order.size == :S } => ->(order, _counts) { order.price - LOWEST_S_PRICE },
-    ->(order) { order.large_la_poste? } => lambda do |order, counts|
-      counts.increment_l_lp_count(order.year_month)
-      counts.l_lp_threshold?(order.year_month) ? PROVIDERS[:LP][:L] : 0
-    end,
-    ->(_order) { true } => ->(_order, _counts) { 0 }
-  }.freeze
+  DISCOUNT_RULES = [
+    DiscountRules::LowestSPrice,
+    DiscountRules::LargeLaPoste
+  ].freeze
 
   def initialize(orders_file = 'input.txt')
     @orders_file = orders_file
@@ -34,8 +32,8 @@ class OrderProcessor
   private
 
   def apply_discount(order)
-    rule = DISCOUNT_RULES.find { |predicate, _rule| predicate.call(order) }[1]
-    limit_discount(order, rule.call(order, counts))
+    discount = DISCOUNT_RULES.map { |rule| rule.call(order, counts) }.max
+    limit_discount(order, discount)
   end
 
   def limit_discount(order, discount)
